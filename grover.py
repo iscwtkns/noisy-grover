@@ -4,6 +4,7 @@ from qiskit.quantum_info import Statevector
 from qiskit.visualization import plot_histogram
 from math import pi, sqrt, floor
 import matplotlib.pyplot as plt
+import numpy as np
 
 def apply_oracle(circuit, n_qubits, target):
     '''
@@ -85,14 +86,36 @@ def grover_search(n, target, iterations, shots = 1024):
     print(f"Correct results: {correct}/{shots} ({100 * correct / shots:.2f}%)")
 
     # Optionally plot histogram (comment out if using non-GUI environment)
-    plot_histogram(counts)
-    plt.show()
+    #plot_histogram(counts)
+    #plt.show()
 
     return counts
 
+def plot_accuracy(n, iterationsmax, target):
 
-grover_search(10, 379, 50, shots=4096)
+    target_bitstring = format(target, f"0{n}b")
+    iterations = range(iterationsmax)
+    accuracy = [0]*len(iterations)
+    theoretical = [0]*len(iterations)
+    theta = np.arcsin(1/np.sqrt(2**n))
+
+    for i in iterations:
+        counts = grover_search(n, target, i, shots=1024)
+        accuracy[i] = counts.get(target_bitstring,0)/1024 * 100
+        theoretical[i] = np.sin((2*i+1)*theta) * 100
 
     
+
+
+    plt.scatter(iterations, accuracy, label = 'Actual Data')
+    plt.plot(iterations, theoretical, label = 'Theoretical Accuracy Curve')
+    plt.legend(loc='upper left')
+    plt.title(f"Accuracy of Grover's Search as a Function of Iterations for n = {n} qubits")
+    plt.xlabel("Iterations")
+    plt.ylabel("Accuracy (%)")
+
+    plt.show()
+
+plot_accuracy(10, 50, 397)
 
     
