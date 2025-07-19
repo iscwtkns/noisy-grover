@@ -2,17 +2,11 @@
 
 ## 📚 Summary: Grover's Search Algorithm
 
-Grover's algorithm is a quantum search algorithm that provides a quadratic speedup for unstructured search problems. Given a search space of size \( N = 2^n \), and \( M \) marked "solutions", Grover’s algorithm finds a solution in roughly:
-
-\[
-O\left(\sqrt{\frac{N}{M}}\right)
-\]
-
-iterations, compared to \( O(N/M) \) classically.
+Grover's algorithm is a quantum search algorithm that provides a quadratic speedup for unstructured search problems. Given a search space of size N, and M marked "solutions", Grover’s algorithm finds a solution in roughly O(√N/M) iterations, compared to O(N/M) classically, offering a quadratic speedup.
 
 The algorithm consists of the following key steps:
 
-1. **Initialization**: Create an equal superposition of all \( 2^n \) states.
+1. **Initialization**: Create an equal superposition of all N states.
 2. **Grover Iteration**: Repeatedly apply:
    - The **oracle**, which flips the sign of the amplitude of the target states.
    - The **diffusion operator** (also called the Grover diffuser), which inverts the state amplitudes about the average.
@@ -24,27 +18,13 @@ The algorithm consists of the following key steps:
 
 ### 🔍 Oracle
 
-The oracle is a quantum operation that marks the correct state(s) by flipping their phase. For a target state \(|x\rangle\), the oracle \( O \) acts as:
-
-\[
-O|x\rangle = 
-\begin{cases}
--|x\rangle & \text{if } x \text{ is a solution} \\
-|x\rangle & \text{otherwise}
-\end{cases}
-\]
+The oracle is a quantum operation that marks the correct state(s) by flipping their phase. For a target state x, the oracle O acts to transform x into -x, and leave all other states unchanged.
 
 In implementation, the oracle checks whether the current basis state matches any in the list of solution indices and applies a Z-gate (phase flip) if it does.
 
 ### 🔄 Diffusion Operator
 
-The diffuser amplifies the amplitude of the marked states. It performs the transformation:
-
-\[
-D = 2|\psi\rangle\langle\psi| - I
-\]
-
-where \(|\psi\rangle\) is the uniform superposition state. It reflects the state vector about the average amplitude. In Qiskit, this is implemented as:
+The diffuser amplifies the amplitude of the marked states by reflecting the state vector about the average amplitude. This works because most of the states are positive resulting in a positive average amplitude. Upon reflection, the un-marked states decrease in amplitude (because they have a higher amplitude than the mean), while the marked states increase in amplitude (because they are negative, and thus lower than the mean).  In Qiskit, this is implemented as:
 
 1. Apply Hadamard to all qubits
 2. Apply X to all qubits
@@ -58,11 +38,7 @@ where \(|\psi\rangle\) is the uniform superposition state. It reflects the state
 
 Below are plots showing the **probability of success** vs **number of Grover iterations** for various configurations.
 
-Theoretical probability is given by:
-
-\[
-P_{\text{success}}(k) = \sin^2\left((2k + 1)\frac{\theta}{2}\right), \quad \theta = 2\sin^{-1}\left(\sqrt{\frac{M}{N}}\right)
-\]
+The theoretical probability of success is dependent on the sine of the number of iterations squared. (Roughly)
 
 ### ✅ Example Plot (10 Qubits, 1 Target)
 
@@ -70,9 +46,6 @@ P_{\text{success}}(k) = \sin^2\left((2k + 1)\frac{\theta}{2}\right), \quad \thet
 
 [Insert plot showing accuracy vs iteration count]
 
-yaml
-Copy
-Edit
 
 Note how the probability initially increases and peaks around the optimal number of iterations, then decreases in a sinusoidal fashion. Over-rotating (too many iterations) leads to a drop in success rate—this is intrinsic to the algorithm and is why knowing the number of solutions is important.
 
