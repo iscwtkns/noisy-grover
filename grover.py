@@ -1,5 +1,5 @@
 from qiskit import QuantumCircuit, transpile, assemble
-from qiskit_aer import Aer
+from qiskit_aer import AerSimulator
 from qiskit.quantum_info import Statevector
 from qiskit.visualization import plot_histogram
 from math import pi, sqrt, floor
@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from oracle import apply_oracle
 from diffusion import apply_diffuser
+from noise import define_noise_model
+from qiskit_ibm_runtime.fake_provider import FakeLimaV2 
+
 
 def grover_step(circuit, n, target):
     '''
@@ -15,7 +18,7 @@ def grover_step(circuit, n, target):
     apply_oracle(circuit, n, target)
     apply_diffuser(circuit, n)
 
-def grover_search(n, targets, iterations, shots = 1024):
+def grover_search(n, targets, iterations, shots = 1024, noise_model = None):
     #check if valid test call
     if isinstance(targets, int):
         targets = [targets]
@@ -38,11 +41,15 @@ def grover_search(n, targets, iterations, shots = 1024):
         grover_step(qc, n, targets)
     
     # Measure only the main qubits (not the ancilla)
-    qc.measure(range(n), range(n))
-
+    qc.measure(range(n), range(n))        
     # Run the circuit on the simulator
-    backend = Aer.get_backend("qasm_simulator")
-    job = backend.run(qc, shots=shots)
+    simulator = AerSimulator()
+    if noise_model is not None:
+        backend = FakeLimaV2()
+        basis_gates = noise_model.basis_gates
+        coupling_map = backend.configuration().coupling_map
+        simulator = AerSimulator(noise_model=noise_model, basis_gates=basis_gates, coupling_map=coupling_map)
+    job = simulator.run(qc, shots=shots)
     result = job.result()
     counts = result.get_counts()
 
@@ -54,7 +61,7 @@ def grover_search(n, targets, iterations, shots = 1024):
     # Report accuracy
     correct = 0
     for target in targets:
-
+        print(target)
         target_bitstring = format(target, f"0{n}b")
         correct += counts.get(target_bitstring, 0)
         print(f"\nTarget bitstring: {target_bitstring}")
@@ -67,6 +74,7 @@ def grover_search(n, targets, iterations, shots = 1024):
 
     return counts
 
-
+noise_model = define_noise_model(0.001,0.01, [[0.9,0.1],[0.1,0.9]])
+grover_search(10,20,20, noise_model=None)
 
     

@@ -48,9 +48,9 @@ The theoretical probability of success is dependent on the sine of the number of
 
 ![10 Qubits, 6 Target](graphs/10qubits6targetnoiseless.png)
 
-### ✅ Example Plot (12 Qubits, 1 Targets)
+### ✅ Example Plot (8 Qubits, 6 Targets)
 
-![12 Qubits, 1 Target](graphs/12qubits1targetnoiseless.png)
+![12 Qubits, 1 Target](graphs/8qubits6targetnoiseless.png)
 
 
 
