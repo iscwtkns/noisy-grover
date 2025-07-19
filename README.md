@@ -42,9 +42,16 @@ The theoretical probability of success is dependent on the sine of the number of
 
 ### ✅ Example Plot (10 Qubits, 1 Target)
 
-> _(Insert your matplotlib/seaborn graph here)_
+![10 Qubits, 1 Target](graphs/10qubits1targetnoiseless.png)
 
-[Insert plot showing accuracy vs iteration count]
+### ✅ Example Plot (10 Qubits, 6 Targets)
+
+![10 Qubits, 6 Target](graphs/10qubits6targetnoiseless.png)
+
+### ✅ Example Plot (12 Qubits, 1 Targets)
+
+![12 Qubits, 1 Target](graphs/12qubits1targetnoiseless.png)
+
 
 
 Note how the probability initially increases and peaks around the optimal number of iterations, then decreases in a sinusoidal fashion. Over-rotating (too many iterations) leads to a drop in success rate—this is intrinsic to the algorithm and is why knowing the number of solutions is important.

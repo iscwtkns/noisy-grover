@@ -23,10 +23,12 @@ def plot_accuracy(n, iterationsmax, targets):
 
 
     plt.scatter(iterations, accuracy, label = 'Actual Data')
-    plt.plot(iterations, theoretical, label = 'Theoretical Accuracy Curve', color='red')
+    plt.plot(iterations, theoretical, label = 'Theoretical Curve', color='red')
     plt.legend(loc='upper left')
-    plt.title(f"Accuracy of Grover's Search as a Function of Iterations for n = {n} qubits")
+    plt.title(f"Accuracy of Grover's Search as a Function of Iterations for n = {n} Qubits and {len(targets)} Target(s)")
     plt.xlabel("Iterations")
     plt.ylabel("Accuracy (%)")
 
     plt.show()
+
+plot_accuracy(12, 100, 1)
