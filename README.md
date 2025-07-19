@@ -73,21 +73,7 @@ This implementation is currently **noiseless**. A future update will simulate re
 - `grover.py` — main implementation
 - `oracle.py` — oracle builder
 - `diffusion.py` — diffuser implementation
-- `plots.py` — plotting utilities
+- `plotting.py` — plotting utilities
 - `README.md` — this file
 
 ---
-
-## 📦 Requirements
-
-- Python 3.8+
-- Qiskit
-- Matplotlib
-- NumPy
-
----
-
-## 🧪 Run the Code
-
-```bash
-python grover.py
