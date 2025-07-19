@@ -6,19 +6,7 @@ from math import pi, sqrt, floor
 import matplotlib.pyplot as plt
 import numpy as np
 from oracle import apply_oracle
-
-
-def apply_diffuser(circuit, n):
-    '''
-    Inverts the working qubits around the mean
-    '''
-    circuit.h(range(n))
-    circuit.x(range(n))
-    circuit.h(n-1)
-    circuit.mcx(list(range(n-1)), n-1)
-    circuit.h(n-1)
-    circuit.x(range(n))
-    circuit.h(range(n))
+from diffusion import apply_diffuser
 
 def grover_step(circuit, n, target):
     '''
@@ -80,5 +68,5 @@ def grover_search(n, targets, iterations, shots = 1024):
     return counts
 
 
-grover_search(3, [4,6], 2)
+
     

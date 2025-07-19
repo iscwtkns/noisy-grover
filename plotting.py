@@ -30,5 +30,3 @@ def plot_accuracy(n, iterationsmax, targets):
     plt.ylabel("Accuracy (%)")
 
     plt.show()
-
-plot_accuracy(10, 50, 367)
