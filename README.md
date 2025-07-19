@@ -34,6 +34,12 @@ The diffuser amplifies the amplitude of the marked states by reflecting the stat
 
 ---
 
+## 🔬 Noisy Simulation
+
+Using Qiskit's fake provider FakeLimaV2, the code could be run easily with realistic noise models, shown below. It was seen that when considering noise, the accuracy of the search algorithm is never 100% and it decays further in each period, not returning to the same peak accuracy.
+
+---
+
 ## 📊 Accuracy Graphs & Analysis
 
 Below are plots showing the **probability of success** vs **number of Grover iterations** for various configurations.
@@ -52,19 +58,14 @@ The theoretical probability of success is dependent on the sine of the number of
 
 ![12 Qubits, 1 Target](graphs/8qubits6targetnoiseless.png)
 
+### ✅ Example Plot (8 Qubits, 6 Targets, with Noise)
+
+![12 Qubits, 1 Target](graphs/8qubits6targetwithnoise.png)
+
+
 
 
 Note how the probability initially increases and peaks around the optimal number of iterations, then decreases in a sinusoidal fashion. Over-rotating (too many iterations) leads to a drop in success rate—this is intrinsic to the algorithm and is why knowing the number of solutions is important.
-
----
-
-## 🔬 Noisy Simulation (coming soon...)
-
-This implementation is currently **noiseless**. A future update will simulate realistic quantum noise using Qiskit’s `Aer` noise models, including:
-
-- Bit-flip and phase-flip errors
-- Depolarizing noise
-- Readout errors
 
 ---
 
